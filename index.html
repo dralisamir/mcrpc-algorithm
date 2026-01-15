@@ -1,124 +1,218 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>mCRPC Combined Algorithm (ASCO 2025)</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      line-height: 1.6;
-    }
-    h1 {
-      color: #333;
-    }
-    details {
-      margin-bottom: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 10px;
-      background: #f9f9f9;
-    }
-    summary {
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-    .subsection {
-      margin-left: 20px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    .highlight {
-      background: #eef7ff;
-      padding: 6px;
-      border-radius: 4px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>mCRPC Interactive Algorithm (ASCO 2025)</title>
+<style>
+  :root{
+    --bg:#ffffff; --fg:#1f2937; --muted:#6b7280; --card:#fafafa; --border:#e5e7eb;
+    --arpi:#1976d2; --parpi:#2e7d32; --taxane:#d32f2f; --radio:#6a1b9a; --immuno:#ff8f00; --other:#455a64;
+    --accent:#0ea5e9;
+  }
+  [data-theme="dark"]{
+    --bg:#0b1020; --fg:#e5e7eb; --muted:#94a3b8; --card:#121a33; --border:#223159; --accent:#38bdf8;
+  }
+  html,body{height:100%}
+  body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    background:var(--bg); color:var(--fg); line-height:1.6;
+  }
+  header{
+    position:sticky; top:0; z-index:10; backdrop-filter: blur(6px);
+    background:color-mix(in srgb, var(--bg) 86%, transparent);
+    border-bottom:1px solid var(--border); padding:10px 16px;
+  }
+  .container{max-width:1100px; margin:0 auto; padding:18px}
+  h1{margin:.3rem 0 .2rem; font-size:1.65rem}
+  .sub{color:var(--muted); font-size:.95rem}
+  .row{display:flex; gap:16px; flex-wrap:wrap}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px;
+  }
+  .step-title{font-weight:700; margin-bottom:6px}
+  .btn{
+    display:inline-block; border:1px solid var(--border); color:var(--fg);
+    background:linear-gradient(to bottom right, color-mix(in srgb, var(--card) 90%, transparent), color-mix(in srgb, var(--card) 70%, transparent));
+    padding:10px 12px; border-radius:10px; cursor:pointer; user-select:none;
+  }
+  .btn:hover{border-color:var(--accent)}
+  .btn.primary{background:linear-gradient( to bottom right, color-mix(in srgb, var(--accent) 22%, var(--card)), color-mix(in srgb, var(--accent) 10%, var(--card)) ); border-color:var(--accent)}
+  .btnbar{display:flex; gap:10px; flex-wrap:wrap}
+  .choices{display:flex; gap:10px; flex-wrap:wrap}
+  .choice{padding:8px 10px; border:1px solid var(--border); border-radius:10px; cursor:pointer; background:var(--bg)}
+  .choice.active{outline:2px solid var(--accent); background:color-mix(in srgb, var(--accent) 8%, var(--bg))}
+  .chip{display:inline-block; padding:3px 8px; border-radius:999px; color:#fff; font-size:.8rem; margin-right:4px}
+  .arpi{background:var(--arpi)} .parpi{background:var(--parpi)} .taxane{background:var(--taxane)}
+  .radio{background:var(--radio)} .immuno{background:var(--immuno)} .other{background:var(--other)}
+  .muted{color:var(--muted)}
+  details{border:1px dashed var(--border); border-radius:10px; padding:6px 10px; background:color-mix(in srgb, var(--card) 80%, transparent)}
+  summary{cursor:pointer; font-weight:600}
+  .grid{display:grid; gap:10px}
+  @media (min-width:900px){ .grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:1fr 1fr 1fr}}
+  .output .regimen{border:1px solid var(--border); border-radius:12px; padding:12px; background:var(--bg); margin-bottom:10px}
+  .note{background:color-mix(in srgb, var(--accent) 8%, var(--card)); border-left:3px solid var(--accent); padding:8px 10px; border-radius:8px}
+  .toolbar{display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:6px}
+  .switch{display:inline-flex; align-items:center; gap:6px; cursor:pointer}
+  .switch input{accent-color:var(--accent)}
+  footer{color:var(--muted); font-size:.85rem; margin-top:18px}
+  .kbd{border:1px solid var(--border); padding:0 6px; border-radius:6px; background:var(--card); font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
+  .small{font-size:.9rem}
+  .invis{display:none}
+</style>
 </head>
 <body>
-
-<h1>mCRPC Combined Algorithm (ASCO 2025)</h1>
-<p>Interactive collapsible version based on your summarized combined algorithm.</p>
-
-<details>
-  <summary>Always (applies to all mCRPC patients)</summary>
-  <div class="subsection">
-    • Continue ADT indefinitely.<br>
-    • Early palliative/supportive care.<br>
-    • Bone protective agent if bone mets.<br>
-    • Obtain germline + somatic testing (HRR, BRCA1/2, MSI/dMMR).<br>
-    • Avoid PSA-only progression decisions.<br>
-    • Imaging q3–6 mo (CT CAP + bone scan).<br>
-    • PSMA PET only for 177Lu-PSMA eligibility.
+<header>
+  <div class="container">
+    <div class="toolbar">
+      <div>
+        <h1>mCRPC Interactive Algorithm</h1>
+        <div class="sub">ASCO 2025 combined flow • Click through the steps to generate tailored recommendations</div>
+      </div>
+      <div class="btnbar">
+        <label class="switch small"><input type="checkbox" id="darkToggle"> Dark mode</label>
+        <button class="btn" id="resetBtn" title="Clear selections (R)"><span>Reset</span></button>
+        <button class="btn primary" id="copyBtn" title="Copy output (C)">Copy output</button>
+      </div>
+    </div>
   </div>
-</details>
+</header>
 
-<details>
-  <summary>A1 — Prior ADT Alone</summary>
-  <div class="subsection">
-    <div class="highlight"><b>BRCA1/2+</b> → PARPi + ARPI (olaparib + abi, niraparib + abi, talazoparib + enza)</div>
-    <div class="highlight"><b>Other HRR+</b> → Talazoparib + enzalutamide (conditional)</div>
-    <div class="highlight"><b>HRR−</b> → Abi/pred OR enzalutamide OR docetaxel</div>
-    <b>Specials:</b><br>
-    • Bone-only symptomatic → Radium-223<br>
-    • MSI-H/dMMR → Pembrolizumab<br>
-    • Indolent low-volume → Sipuleucel‑T<br>
-    • Oligoprogression → MDT<br>
-  </div>
-</details>
+<main class="container">
+  <!-- STEP 1: Prior CSPC Exposure -->
+  <section class="card">
+    <div class="step-title">Step 1 — Prior therapy in the castration‑sensitive phase</div>
+    <div class="choices" id="exposureChoices" role="radiogroup" aria-label="Prior therapy">
+      <div class="choice" data-exposure="A1" tabindex="0">ADT only</div>
+      <div class="choice" data-exposure="A2" tabindex="0">ADT + ARPI</div>
+      <div class="choice" data-exposure="A3" tabindex="0">ADT + Docetaxel</div>
+      <div class="choice" data-exposure="A4" tabindex="0">ADT + ARPI + Docetaxel (Triplet)</div>
+    </div>
+    <details class="small" style="margin-top:8px;">
+      <summary>What this step does</summary>
+      Therapy choices in mCRPC depend heavily on what was already given for mCSPC. We branch first on **ADT only / +ARPI / +Docetaxel / Triplet**.
+    </details>
+  </section>
 
-<details>
-  <summary>A2 — Prior ADT + ARPI</summary>
-  <div class="subsection">
-    <div class="highlight"><b>BRCA1/2+</b> → Olaparib monotherapy</div>
-    <div class="highlight"><b>Other HRR+</b> → Olaparib monotherapy (conditional)</div>
-    <div class="highlight"><b>HRR−</b> → Docetaxel (avoid ARPI→ARPI)</div>
-    • Sip-T (selected), local MDT possible.<br>
-    • Radium‑223 if bone‑only symptomatic.
-  </div>
-</details>
+  <!-- STEP 2: Biomarkers -->
+  <section class="card">
+    <div class="step-title">Step 2 — Biomarkers</div>
+    <div class="grid grid-2">
+      <div>
+        <div class="muted small">HRR status</div>
+        <div class="choices" id="hrrChoices" role="radiogroup" aria-label="HRR">
+          <div class="choice" data-hrr="brca">BRCA1/2+</div>
+          <div class="choice" data-hrr="other">Other HRR+</div>
+          <div class="choice" data-hrr="neg">HRR– / unknown</div>
+        </div>
+      </div>
+      <div>
+        <div class="muted small">MSI/MMR</div>
+        <div class="choices" id="msiChoices" role="radiogroup" aria-label="MSI">
+          <div class="choice" data-msi="msi">MSI‑H / dMMR</div>
+          <div class="choice active" data-msi="wt">Not MSI‑H (default)</div>
+        </div>
+      </div>
+    </div>
+    <details class="small" style="margin-top:8px;">
+      <summary>Testing reminder</summary>
+      Obtain **germline + somatic** testing early: HRR genes (incl. BRCA1/2), MSI/dMMR; consider TMB as context.
+    </details>
+  </section>
 
-<details>
-  <summary>A3 — Prior ADT + Docetaxel</summary>
-  <div class="subsection">
-    <div class="highlight"><b>HRR+</b> → PARPi + ARPI if ARPI‑naïve</div>
-    <div class="highlight"><b>HRR−</b> → Abi/pred OR enzalutamide OR cabazitaxel</div>
-    • Radium‑223 (bone only), pembrolizumab (MSI‑H).<br>
-  </div>
-</details>
+  <!-- STEP 3: Special situations & Phenotype -->
+  <section class="card">
+    <div class="step-title">Step 3 — Special situations & phenotype</div>
+    <div class="grid grid-3">
+      <div>
+        <div class="muted small">Situations</div>
+        <div class="choices" id="situations" aria-label="Specials" role="group">
+          <div class="choice" data-sit="boneonly">Bone‑only symptomatic</div>
+          <div class="choice" data-sit="indolent">Indolent / low‑volume</div>
+          <div class="choice" data-sit="oligo">Oligoprogression (≤3 lesions)</div>
+        </div>
+      </div>
+      <div>
+        <div class="muted small">Phenotype</div>
+        <div class="choices" id="phenotype" role="radiogroup" aria-label="Phenotype">
+          <div class="choice active" data-pheno="adeno">Adenocarcinoma</div>
+          <div class="choice" data-pheno="nepc">Small‑cell / NEPC / AVPC</div>
+        </div>
+      </div>
+      <div id="psmaPane" class="invis">
+        <div class="muted small">PSMA PET status (relevant post ARPI + taxane)</div>
+        <div class="choices" id="psma" role="radiogroup" aria-label="PSMA">
+          <div class="choice" data-psma="pos">PSMA‑positive</div>
+          <div class="choice active" data-psma="neg">PSMA‑negative / not eligible</div>
+        </div>
+      </div>
+    </div>
+    <details class="small" style="margin-top:8px;">
+      <summary>Why these toggles?</summary>
+      These switches surface **Radium‑223 (bone‑only)**, **Sip‑T (indolent)**, **MDT for oligoprogression**, and the **PSMA‑directed radioligand** branch where appropriate.
+    </details>
+  </section>
 
-<details>
-  <summary>A4 — Prior ADT + ARPI + Docetaxel (Triplet)</summary>
-  <div class="subsection">
-    <div class="highlight"><b>PSMA+</b> → 177Lu‑PSMA‑617 OR cabazitaxel</div>
-    <div class="highlight"><b>HRR+</b> → Olaparib monotherapy</div>
-    • PSMA− → Cabazitaxel ± radium‑223<br>
-    • MSI‑H → Pembrolizumab<br>
-  </div>
-</details>
+  <!-- STEP 4: Generate -->
+  <section class="card">
+    <div class="btnbar">
+      <button class="btn primary" id="genBtn"><strong>Generate recommendations</strong></button>
+      <span class="muted small">Tip: press <span class="kbd">C</span> to copy output, <span class="kbd">R</span> to reset.</span>
+    </div>
+  </section>
 
-<details>
-  <summary>B — Neuroendocrine / Small‑Cell Variant</summary>
-  <div class="subsection">
-    • Cisplatin or carboplatin + etoposide (1st line)<br>
-    • Carboplatin + cabazitaxel (AVPC features)<br>
-    • Clinical trial preferred after platinum<br>
-    • Optional: Immunotherapy + platinum maintenance, lurbinectedin, topotecan, tarlatamab
-  </div>
-</details>
+  <!-- OUTPUT -->
+  <section class="card output" id="output">
+    <div class="step-title">Output</div>
+    <div class="muted small">Complete the steps above and click “Generate recommendations”.</div>
+  </section>
 
-<details>
-  <summary>High-Yield Memory Lines</summary>
-  <div class="subsection">
-    • “Know the Past → Test the Tumor → Treat the Type.”<br>
-    • BRCA: ARPI‑naïve → PARPi+ARPI; post‑ARPI → PARPi alone.<br>
-    • Avoid ARPI→ARPI after failure (CABAZITAXEL wins).<br>
-    • Bone-only symptomatic → Radium‑223 (not with abi/pred).<br>
-    • PSMA lights the Lu → 177Lu‑PSMA‑617 after ARPI + taxane.<br>
-  </div>
-</details>
+  <!-- Side panels -->
+  <section class="grid grid-2">
+    <section class="card">
+      <div class="step-title">Monitoring & imaging</div>
+      <details open>
+        <summary>Practical reminders</summary>
+        <div class="small">
+          • Continue **ADT** indefinitely. Early **palliative/supportive care**.<br/>
+          • **Bone mets** → denosumab or zoledronic acid + Ca/Vit‑D.<br/>
+          • Decide benefit on **clinical status + labs + imaging**; avoid **PSA‑only** progression calls.<br/>
+          • **CT CAP + Tc99 bone scan** q3–6 months or earlier with clinical change.<br/>
+          • **PSMA PET‑CT**: mainly to confirm **PSMA‑expressing** disease for <span class="chip radio">177Lu‑PSMA‑617</span>;
+            not routine for response assessment (per ASCO 2025).
+        </div>
+      </details>
+    </section>
+    <section class="card">
+      <div class="step-title">Memory lines</div>
+      <details open>
+        <summary>High‑yield cues</summary>
+        <div class="small">
+          • **Know the Past → Test the Tumor → Treat the Type.**<br/>
+          • **BRCA**: ARPI‑naïve → <span class="chip parpi">PARPi</span> + <span class="chip arpi">ARPI</span>; post‑ARPI → <span class="chip parpi">PARPi monotherapy</span>.<br/>
+          • **Avoid ARPI → ARPI** after failure; <span class="chip taxane">Cabazitaxel</span> outperforms switch (CARD).<br/>
+          • **Bone‑only symptomatic** → <span class="chip radio">Radium‑223</span> (not with abi/pred).<br/>
+          • **PSMA+ after ARPI + taxane** → <span class="chip radio">177Lu‑PSMA‑617</span>.
+        </div>
+      </details>
+    </section>
+  </section>
 
-</body>
-</html>
+  <footer>
+    Source: ASCO Guideline Update 2025 (uploaded). Educational tool; not a substitute for clinical judgment.
+  </footer>
+</main>
+
+<script>
+/* ---------- State ---------- */
+const state = {
+  exposure:null,  // A1/A2/A3/A4
+  hrr:null,       // brca/other/neg
+  msi:'wt',       // msi/wt
+  specials:new Set(), // boneonly/indolent/oligo
+  pheno:'adeno',  // adeno/nepc
+  psma:'neg'      // pos/neg (only relevant post ARPI + taxane)
+};
+
+/* ---------- UI helpers ---------- */
