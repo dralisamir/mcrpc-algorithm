@@ -1,144 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>mCRPC Interactive Algorithm (ASCO 2025)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mCRPC Clinical Handbook (ASCO 2025)</title>
+
 <style>
-  :root{
-    --bg:#ffffff; --fg:#1f2937; --muted:#6b7280; --card:#fafafa; --border:#e5e7eb;
-    --arpi:#1976d2; --parpi:#2e7d32; --taxane:#d32f2f; --radio:#6a1b9a; --immuno:#ff8f00; --other:#455a64;
-    --accent:#0ea5e9;
+  body {
+    font-family: "Trebuchet MS", sans-serif;
+    margin: 0; padding: 0;
+    background: #f7f9fb;
+    color: #1a1a1a;
+    line-height: 1.65;
   }
-  [data-theme="dark"]{
-    --bg:#0b1020; --fg:#e5e7eb; --muted:#94a3b8; --card:#121a33; --border:#223159; --accent:#38bdf8;
+  header {
+    background: #0b3d91;
+    color: white;
+    padding: 24px 16px;
+    text-align: center;
   }
-  html,body{height:100%}
-  body{
-    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    background:var(--bg); color:var(--fg); line-height:1.6;
+  h1 { margin: 0 0 8px; font-weight: 700; }
+  h2 { margin-top: 40px; border-left: 5px solid #0b3d91; padding-left: 10px; }
+  h3 { color: #0b3d91; margin-top: 28px; }
+  .container { max-width: 900px; margin: auto; padding: 20px; }
+  .section-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 22px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
   }
-  header{
-    position:sticky; top:0; z-index:10;
-    background:rgba(255,255,255,0.9);
-    border-bottom:1px solid var(--border); padding:10px 16px;
-    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  .tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.85rem;
+    margin-right: 6px;
   }
-  [data-theme="dark"] header{background:rgba(11,16,32,0.9)}
-  .container{max-width:1100px; margin:0 auto; padding:18px}
-  h1{margin:.3rem 0 .2rem; font-size:1.65rem}
-  .sub{color:var(--muted); font-size:.95rem}
-  .card{
-    position:relative; z-index:0; /* ensure no stray overlay eats clicks */
-    background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px;
+  .arpi { background: #1976d2; }
+  .parpi { background: #2e7d32; }
+  .taxane { background: #d32f2f; }
+  .radio { background: #6a1b9a; }
+  .immuno { background: #ff8f00; }
+  .other { background: #455a64; }
+
+  .evidence-box {
+    background: #eef4ff;
+    border-left: 4px solid #0b3d91;
+    padding: 10px 14px;
+    margin-top: 12px;
+    border-radius: 6px;
   }
-  .step-title{font-weight:700; margin-bottom:6px}
-  .btn, .choice{
-    display:inline-block; border:1px solid var(--border); color:var(--fg);
-    background:var(--bg);
-    padding:10px 12px; border-radius:10px; cursor:pointer; user-select:none;
-    pointer-events:auto; position:relative; z-index:1;
+  .trial {
+    font-weight: bold;
+    color: #0b3d91;
   }
-  .btn:hover, .choice:hover{border-color:var(--accent)}
-  .btn.primary{background:linear-gradient( to bottom right, rgba(14,165,233,.18), rgba(14,165,233,.08) ); border-color:var(--accent)}
-  .btnbar{display:flex; gap:10px; flex-wrap:wrap}
-  .choices{display:flex; gap:10px; flex-wrap:wrap}
-  .choice{padding:8px 10px}
-  .choice.active{outline:2px solid var(--accent); background:#f0f9ff}
-  [data-theme="dark"] .choice.active{background:#0b2230}
-  .chip{display:inline-block; padding:3px 8px; border-radius:999px; color:#fff; font-size:.8rem; margin-right:4px}
-  .arpi{background:var(--arpi)} .parpi{background:var(--parpi)} .taxane{background:var(--taxane)}
-  .radio{background:var(--radio)} .immuno{background:var(--immuno)} .other{background:var(--other)}
-  .muted{color:var(--muted)}
-  details{border:1px dashed var(--border); border-radius:10px; padding:6px 10px; background:rgba(0,0,0,0.03)}
-  summary{cursor:pointer; font-weight:600}
-  .grid{display:grid; gap:10px}
-  @media (min-width:900px){ .grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:1fr 1fr 1fr}}
-  .output .regimen{border:1px solid var(--border); border-radius:12px; padding:12px; background:var(--bg); margin-bottom:10px}
-  .note{background:#eef7ff; border-left:3px solid var(--accent); padding:8px 10px; border-radius:8px}
-  [data-theme="dark"] .note{background:#0b2230}
-  .toolbar{display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:6px}
-  footer{color:var(--muted); font-size:.85rem; margin-top:18px}
-  .kbd{border:1px solid var(--border); padding:0 6px; border-radius:6px; background:var(--card); font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
-  .small{font-size:.9rem}
-  .invis{display:none}
-  button.choice, button.btn{border-width:1px; border-style:solid}
+  footer {
+    text-align: center;
+    color: #666;
+    padding: 22px;
+    margin-top: 40px;
+  }
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="container">
-    <div class="toolbar">
-      <div>
-        <h1>mCRPC Interactive Algorithm</h1>
-        <div class="sub">ASCO 2025 combined flow • Click through the steps to generate tailored recommendations</div>
-      </div>
-      <div class="btnbar">
-        <label class="small" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
-          <input type="checkbox" id="darkToggle"> Dark mode
-        </label>
-        <button class="btn" id="resetBtn" type="button" title="Clear selections (R)"><span>Reset</span></button>
-        <button class="btn primary" id="copyBtn" type="button" title="Copy output (C)">Copy output</button>
-      </div>
-    </div>
-  </div>
+  <h1>mCRPC Clinical Handbook (ASCO 2025)</h1>
+  <div>Evidence-informed systemic therapy recommendations with PFS/OS benefits and citations</div>
 </header>
 
-<main class="container" id="appRoot" style="position:relative; z-index:0;">
-  <!-- STEP 1 -->
-  <section class="card">
-    <div class="step-title">Step 1 — Prior therapy in the castration‑sensitive phase</div>
-    <div class="choices" id="exposureChoices" role="radiogroup" aria-label="Prior therapy">
-      <button class="choice" data-exposure="A1" type="button">ADT only</button>
-      <button class="choice" data-exposure="A2" type="button">ADT + ARPI</button>
-      <button class="choice" data-exposure="A3" type="button">ADT + Docetaxel</button>
-      <button class="choice" data-exposure="A4" type="button">ADT + ARPI + Docetaxel (Triplet)</button>
-    </div>
-    <details class="small" style="margin-top:8px;">
-      <summary>What this step does</summary>
-      Therapy choices in mCRPC depend heavily on what was already given for mCSPC. We branch first on **ADT only / +ARPI / +Docetaxel / Triplet**.
-    </details>
-  </section>
+<div class="container">
 
-  <!-- STEP 2 -->
-  <section class="card">
-    <div class="step-title">Step 2 — Biomarkers</div>
-    <div class="grid grid-2">
-      <div>
-        <div class="muted small">HRR status</div>
-        <div class="choices" id="hrrChoices" role="radiogroup" aria-label="HRR">
-          <button class="choice" data-hrr="brca" type="button">BRCA1/2+</button>
-          <button class="choice" data-hrr="other" type="button">Other HRR+</button>
-          <button class="choice" data-hrr="neg" type="button">HRR– / unknown</button>
-        </div>
-      </div>
-      <div>
-        <div class="muted small">MSI/MMR</div>
-        <div class="choices" id="msiChoices" role="radiogroup" aria-label="MSI">
-          <button class="choice" data-msi="msi" type="button">MSI‑H / dMMR</button>
-          <button class="choice active" data-msi="wt" type="button">Not MSI‑H (default)</button>
-        </div>
-      </div>
-    </div>
-    <details class="small" style="margin-top:8px;">
-      <summary>Testing reminder</summary>
-      Obtain **germline + somatic** testing early: HRR genes (incl. BRCA1/2), MSI/dMMR; consider TMB as context.
-    </details>
-  </section>
-
-  <!-- STEP 3 -->
-  <section class="card">
-    <div class="step-title">Step 3 — Special situations & phenotype</div>
-    <div class="grid grid-3">
-      <div>
-        <div class="muted small">Situations</div>
-        <div class="choices" id="situations" aria-label="Specials" role="group">
-          <button class="choice" data-sit="boneonly" type="button">Bone‑only symptomatic</button>
-          <button class="choice" data-sit="indolent" type="button">Indolent / low‑volume</button>
-          <button class="choice" data-sit="oligo" type="button">Oligoprogression (≤3 lesions)</button>
-        </div>
-      </div>
-      <div>
-        <div class="muted small">Phenotype</div>
-        <div class="choices" id="phenotype" role="radiogroup" aria-label="Phenotype">
-          <button class="choice active" data-pheno="adeno" type="button">Adenocarcinoma</button>
+<!-- INTRO -->
+<section class="section-card">
+  <h2>Introduction</h2>
+  <p>
+    This clinical handbook summarizes the 2025 ASCO guideline update for 
+    <strong>metastatic castration-resistant prostate cancer (mCRPC)</strong>, integrating:
+  </p>
+  <ul>
+    <li>Therapeutic selection based on <strong>prior castration-sensitive phase (CSPC) exposure</strong></li>
+    <li><strong>HRR and MSI/MMR biomarkers</strong></li>
