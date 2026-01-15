@@ -20,15 +20,16 @@
   }
   header{
     position:sticky; top:0; z-index:10;
-    background:rgba(255,255,255,0.85);
+    background:rgba(255,255,255,0.9);
     border-bottom:1px solid var(--border); padding:10px 16px;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   }
-  [data-theme="dark"] header{background:rgba(11,16,32,0.85)}
+  [data-theme="dark"] header{background:rgba(11,16,32,0.9)}
   .container{max-width:1100px; margin:0 auto; padding:18px}
   h1{margin:.3rem 0 .2rem; font-size:1.65rem}
   .sub{color:var(--muted); font-size:.95rem}
-  .row{display:flex; gap:16px; flex-wrap:wrap}
   .card{
+    position:relative; z-index:0; /* ensure no stray overlay eats clicks */
     background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px;
   }
   .step-title{font-weight:700; margin-bottom:6px}
@@ -36,6 +37,7 @@
     display:inline-block; border:1px solid var(--border); color:var(--fg);
     background:var(--bg);
     padding:10px 12px; border-radius:10px; cursor:pointer; user-select:none;
+    pointer-events:auto; position:relative; z-index:1;
   }
   .btn:hover, .choice:hover{border-color:var(--accent)}
   .btn.primary{background:linear-gradient( to bottom right, rgba(14,165,233,.18), rgba(14,165,233,.08) ); border-color:var(--accent)}
@@ -60,7 +62,6 @@
   .kbd{border:1px solid var(--border); padding:0 6px; border-radius:6px; background:var(--card); font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
   .small{font-size:.9rem}
   .invis{display:none}
-  /* Make buttons real buttons */
   button.choice, button.btn{border-width:1px; border-style:solid}
 </style>
 </head>
@@ -83,8 +84,8 @@
   </div>
 </header>
 
-<main class="container">
-  <!-- STEP 1: Prior CSPC Exposure -->
+<main class="container" id="appRoot" style="position:relative; z-index:0;">
+  <!-- STEP 1 -->
   <section class="card">
     <div class="step-title">Step 1 — Prior therapy in the castration‑sensitive phase</div>
     <div class="choices" id="exposureChoices" role="radiogroup" aria-label="Prior therapy">
@@ -99,7 +100,7 @@
     </details>
   </section>
 
-  <!-- STEP 2: Biomarkers -->
+  <!-- STEP 2 -->
   <section class="card">
     <div class="step-title">Step 2 — Biomarkers</div>
     <div class="grid grid-2">
@@ -125,7 +126,7 @@
     </details>
   </section>
 
-  <!-- STEP 3: Special situations & Phenotype -->
+  <!-- STEP 3 -->
   <section class="card">
     <div class="step-title">Step 3 — Special situations & phenotype</div>
     <div class="grid grid-3">
@@ -141,114 +142,3 @@
         <div class="muted small">Phenotype</div>
         <div class="choices" id="phenotype" role="radiogroup" aria-label="Phenotype">
           <button class="choice active" data-pheno="adeno" type="button">Adenocarcinoma</button>
-          <button class="choice" data-pheno="nepc" type="button">Small‑cell / NEPC / AVPC</button>
-        </div>
-      </div>
-      <div id="psmaPane" class="invis">
-        <div class="muted small">PSMA PET status (relevant post ARPI + taxane)</div>
-        <div class="choices" id="psma" role="radiogroup" aria-label="PSMA">
-          <button class="choice" data-psma="pos" type="button">PSMA‑positive</button>
-          <button class="choice active" data-psma="neg" type="button">PSMA‑negative / not eligible</button>
-        </div>
-      </div>
-    </div>
-    <details class="small" style="margin-top:8px;">
-      <summary>Why these toggles?</summary>
-      These switches surface **Radium‑223 (bone‑only)**, **Sip‑T (indolent)**, **MDT for oligoprogression**, and the **PSMA‑directed radioligand** branch where appropriate.
-    </details>
-  </section>
-
-  <!-- STEP 4: Generate -->
-  <section class="card">
-    <div class="btnbar">
-      <button class="btn primary" id="genBtn" type="button"><strong>Generate recommendations</strong></button>
-      <span class="muted small">Tip: press <span class="kbd">C</span> to copy output, <span class="kbd">R</span> to reset.</span>
-    </div>
-  </section>
-
-  <!-- OUTPUT -->
-  <section class="card output" id="output">
-    <div class="step-title">Output</div>
-    <div class="muted small">Complete the steps above and click “Generate recommendations”.</div>
-  </section>
-
-  <!-- Side panels -->
-  <section class="grid grid-2">
-    <section class="card">
-      <div class="step-title">Monitoring & imaging</div>
-      <details open>
-        <summary>Practical reminders</summary>
-        <div class="small">
-          • Continue **ADT** indefinitely. Early **palliative/supportive care**.<br/>
-          • **Bone mets** → denosumab or zoledronic acid + Ca/Vit‑D.<br/>
-          • Decide benefit on **clinical status + labs + imaging**; avoid **PSA‑only** progression calls.<br/>
-          • **CT CAP + Tc99 bone scan** q3–6 months or earlier with clinical change.<br/>
-          • **PSMA PET‑CT**: mainly to confirm **PSMA‑expressing** disease for <span class="chip radio">177Lu‑PSMA‑617</span>;
-            not routine for response assessment (per ASCO 2025).
-        </div>
-      </details>
-    </section>
-    <section class="card">
-      <div class="step-title">Memory lines</div>
-      <details open>
-        <summary>High‑yield cues</summary>
-        <div class="small">
-          • **Know the Past → Test the Tumor → Treat the Type.**<br/>
-          • **BRCA**: ARPI‑naïve → <span class="chip parpi">PARPi</span> + <span class="chip arpi">ARPI</span>; post‑ARPI → <span class="chip parpi">PARPi monotherapy</span>.<br/>
-          • **Avoid ARPI → ARPI** after failure; <span class="chip taxane">Cabazitaxel</span> outperforms switch (CARD).<br/>
-          • **Bone‑only symptomatic** → <span class="chip radio">Radium‑223</span> (not with abi/pred).<br/>
-          • **PSMA+ after ARPI + taxane** → <span class="chip radio">177Lu‑PSMA‑617</span>.
-        </div>
-      </details>
-    </section>
-  </section>
-
-  <footer>
-    Source: ASCO Guideline Update 2025 (uploaded). Educational tool; not a substitute for clinical judgment.
-  </footer>
-</main>
-
-<script>
-/* ---------- App state ---------- */
-var state = {
-  exposure:null,  // A1/A2/A3/A4
-  hrr:null,       // brca/other/neg
-  msi:'wt',       // msi/wt
-  specials:{},    // {boneonly:true, indolent:true, oligo:true}
-  pheno:'adeno',  // adeno/nepc
-  psma:'neg'      // pos/neg
-};
-
-/* ---------- Utilities ---------- */
-function $(sel){ return document.querySelector(sel); }
-function $all(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
-function setActive(container, attr, value){
-  var items = $all(container + ' .choice');
-  items.forEach(function(el){
-    if(el.getAttribute('data-'+attr) === value){ el.classList.add('active'); }
-    else { el.classList.remove('active'); }
-  });
-}
-function toggleMulti(el, key){
-  var tag = el.getAttribute('data-sit');
-  if(state.specials[tag]){ delete state.specials[tag]; el.classList.remove('active'); }
-  else { state.specials[tag] = true; el.classList.add('active'); }
-}
-function labelForClass(c){
-  return {arpi:'ARPI', parpi:'PARPi', taxane:'Taxane', radio:'Radiopharm', immuno:'Immunotherapy', other:'Other'}[c] || c;
-}
-function note(txt){ return '<div class="note small">'+txt+'</div>'; }
-function mutedLine(txt){ return '<div class="small muted">'+txt+'</div>'; }
-
-/* ---------- Event delegation bindings ---------- */
-function bindRadio(containerSel, stateKey, dataAttr){
-  var container = $(containerSel);
-  container.addEventListener('click', function(e){
-    var target = e.target.closest('.choice');
-    if(!target || !container.contains(target)) return;
-    // set active
-    $all(containerSel+' .choice').forEach(function(btn){ btn.classList.remove('active'); });
-    target.classList.add('active');
-    // set state
-    var val = target.getAttribute('data-'+dataAttr);
-    state[stateKey] = val;
