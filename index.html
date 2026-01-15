@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,10 +19,11 @@
     background:var(--bg); color:var(--fg); line-height:1.6;
   }
   header{
-    position:sticky; top:0; z-index:10; backdrop-filter: blur(6px);
-    background:color-mix(in srgb, var(--bg) 86%, transparent);
+    position:sticky; top:0; z-index:10;
+    background:rgba(255,255,255,0.85);
     border-bottom:1px solid var(--border); padding:10px 16px;
   }
+  [data-theme="dark"] header{background:rgba(11,16,32,0.85)}
   .container{max-width:1100px; margin:0 auto; padding:18px}
   h1{margin:.3rem 0 .2rem; font-size:1.65rem}
   .sub{color:var(--muted); font-size:.95rem}
@@ -32,34 +32,36 @@
     background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px;
   }
   .step-title{font-weight:700; margin-bottom:6px}
-  .btn{
+  .btn, .choice{
     display:inline-block; border:1px solid var(--border); color:var(--fg);
-    background:linear-gradient(to bottom right, color-mix(in srgb, var(--card) 90%, transparent), color-mix(in srgb, var(--card) 70%, transparent));
+    background:var(--bg);
     padding:10px 12px; border-radius:10px; cursor:pointer; user-select:none;
   }
-  .btn:hover{border-color:var(--accent)}
-  .btn.primary{background:linear-gradient( to bottom right, color-mix(in srgb, var(--accent) 22%, var(--card)), color-mix(in srgb, var(--accent) 10%, var(--card)) ); border-color:var(--accent)}
+  .btn:hover, .choice:hover{border-color:var(--accent)}
+  .btn.primary{background:linear-gradient( to bottom right, rgba(14,165,233,.18), rgba(14,165,233,.08) ); border-color:var(--accent)}
   .btnbar{display:flex; gap:10px; flex-wrap:wrap}
   .choices{display:flex; gap:10px; flex-wrap:wrap}
-  .choice{padding:8px 10px; border:1px solid var(--border); border-radius:10px; cursor:pointer; background:var(--bg)}
-  .choice.active{outline:2px solid var(--accent); background:color-mix(in srgb, var(--accent) 8%, var(--bg))}
+  .choice{padding:8px 10px}
+  .choice.active{outline:2px solid var(--accent); background:#f0f9ff}
+  [data-theme="dark"] .choice.active{background:#0b2230}
   .chip{display:inline-block; padding:3px 8px; border-radius:999px; color:#fff; font-size:.8rem; margin-right:4px}
   .arpi{background:var(--arpi)} .parpi{background:var(--parpi)} .taxane{background:var(--taxane)}
   .radio{background:var(--radio)} .immuno{background:var(--immuno)} .other{background:var(--other)}
   .muted{color:var(--muted)}
-  details{border:1px dashed var(--border); border-radius:10px; padding:6px 10px; background:color-mix(in srgb, var(--card) 80%, transparent)}
+  details{border:1px dashed var(--border); border-radius:10px; padding:6px 10px; background:rgba(0,0,0,0.03)}
   summary{cursor:pointer; font-weight:600}
   .grid{display:grid; gap:10px}
   @media (min-width:900px){ .grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:1fr 1fr 1fr}}
   .output .regimen{border:1px solid var(--border); border-radius:12px; padding:12px; background:var(--bg); margin-bottom:10px}
-  .note{background:color-mix(in srgb, var(--accent) 8%, var(--card)); border-left:3px solid var(--accent); padding:8px 10px; border-radius:8px}
+  .note{background:#eef7ff; border-left:3px solid var(--accent); padding:8px 10px; border-radius:8px}
+  [data-theme="dark"] .note{background:#0b2230}
   .toolbar{display:flex; gap:8px; align-items:center; justify-content:space-between; margin-top:6px}
-  .switch{display:inline-flex; align-items:center; gap:6px; cursor:pointer}
-  .switch input{accent-color:var(--accent)}
   footer{color:var(--muted); font-size:.85rem; margin-top:18px}
   .kbd{border:1px solid var(--border); padding:0 6px; border-radius:6px; background:var(--card); font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
   .small{font-size:.9rem}
   .invis{display:none}
+  /* Make buttons real buttons */
+  button.choice, button.btn{border-width:1px; border-style:solid}
 </style>
 </head>
 <body>
@@ -71,9 +73,11 @@
         <div class="sub">ASCO 2025 combined flow • Click through the steps to generate tailored recommendations</div>
       </div>
       <div class="btnbar">
-        <label class="switch small"><input type="checkbox" id="darkToggle"> Dark mode</label>
-        <button class="btn" id="resetBtn" title="Clear selections (R)"><span>Reset</span></button>
-        <button class="btn primary" id="copyBtn" title="Copy output (C)">Copy output</button>
+        <label class="small" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
+          <input type="checkbox" id="darkToggle"> Dark mode
+        </label>
+        <button class="btn" id="resetBtn" type="button" title="Clear selections (R)"><span>Reset</span></button>
+        <button class="btn primary" id="copyBtn" type="button" title="Copy output (C)">Copy output</button>
       </div>
     </div>
   </div>
@@ -84,10 +88,10 @@
   <section class="card">
     <div class="step-title">Step 1 — Prior therapy in the castration‑sensitive phase</div>
     <div class="choices" id="exposureChoices" role="radiogroup" aria-label="Prior therapy">
-      <div class="choice" data-exposure="A1" tabindex="0">ADT only</div>
-      <div class="choice" data-exposure="A2" tabindex="0">ADT + ARPI</div>
-      <div class="choice" data-exposure="A3" tabindex="0">ADT + Docetaxel</div>
-      <div class="choice" data-exposure="A4" tabindex="0">ADT + ARPI + Docetaxel (Triplet)</div>
+      <button class="choice" data-exposure="A1" type="button">ADT only</button>
+      <button class="choice" data-exposure="A2" type="button">ADT + ARPI</button>
+      <button class="choice" data-exposure="A3" type="button">ADT + Docetaxel</button>
+      <button class="choice" data-exposure="A4" type="button">ADT + ARPI + Docetaxel (Triplet)</button>
     </div>
     <details class="small" style="margin-top:8px;">
       <summary>What this step does</summary>
@@ -102,16 +106,16 @@
       <div>
         <div class="muted small">HRR status</div>
         <div class="choices" id="hrrChoices" role="radiogroup" aria-label="HRR">
-          <div class="choice" data-hrr="brca">BRCA1/2+</div>
-          <div class="choice" data-hrr="other">Other HRR+</div>
-          <div class="choice" data-hrr="neg">HRR– / unknown</div>
+          <button class="choice" data-hrr="brca" type="button">BRCA1/2+</button>
+          <button class="choice" data-hrr="other" type="button">Other HRR+</button>
+          <button class="choice" data-hrr="neg" type="button">HRR– / unknown</button>
         </div>
       </div>
       <div>
         <div class="muted small">MSI/MMR</div>
         <div class="choices" id="msiChoices" role="radiogroup" aria-label="MSI">
-          <div class="choice" data-msi="msi">MSI‑H / dMMR</div>
-          <div class="choice active" data-msi="wt">Not MSI‑H (default)</div>
+          <button class="choice" data-msi="msi" type="button">MSI‑H / dMMR</button>
+          <button class="choice active" data-msi="wt" type="button">Not MSI‑H (default)</button>
         </div>
       </div>
     </div>
@@ -128,23 +132,23 @@
       <div>
         <div class="muted small">Situations</div>
         <div class="choices" id="situations" aria-label="Specials" role="group">
-          <div class="choice" data-sit="boneonly">Bone‑only symptomatic</div>
-          <div class="choice" data-sit="indolent">Indolent / low‑volume</div>
-          <div class="choice" data-sit="oligo">Oligoprogression (≤3 lesions)</div>
+          <button class="choice" data-sit="boneonly" type="button">Bone‑only symptomatic</button>
+          <button class="choice" data-sit="indolent" type="button">Indolent / low‑volume</button>
+          <button class="choice" data-sit="oligo" type="button">Oligoprogression (≤3 lesions)</button>
         </div>
       </div>
       <div>
         <div class="muted small">Phenotype</div>
         <div class="choices" id="phenotype" role="radiogroup" aria-label="Phenotype">
-          <div class="choice active" data-pheno="adeno">Adenocarcinoma</div>
-          <div class="choice" data-pheno="nepc">Small‑cell / NEPC / AVPC</div>
+          <button class="choice active" data-pheno="adeno" type="button">Adenocarcinoma</button>
+          <button class="choice" data-pheno="nepc" type="button">Small‑cell / NEPC / AVPC</button>
         </div>
       </div>
       <div id="psmaPane" class="invis">
         <div class="muted small">PSMA PET status (relevant post ARPI + taxane)</div>
         <div class="choices" id="psma" role="radiogroup" aria-label="PSMA">
-          <div class="choice" data-psma="pos">PSMA‑positive</div>
-          <div class="choice active" data-psma="neg">PSMA‑negative / not eligible</div>
+          <button class="choice" data-psma="pos" type="button">PSMA‑positive</button>
+          <button class="choice active" data-psma="neg" type="button">PSMA‑negative / not eligible</button>
         </div>
       </div>
     </div>
@@ -157,7 +161,7 @@
   <!-- STEP 4: Generate -->
   <section class="card">
     <div class="btnbar">
-      <button class="btn primary" id="genBtn"><strong>Generate recommendations</strong></button>
+      <button class="btn primary" id="genBtn" type="button"><strong>Generate recommendations</strong></button>
       <span class="muted small">Tip: press <span class="kbd">C</span> to copy output, <span class="kbd">R</span> to reset.</span>
     </div>
   </section>
@@ -205,14 +209,46 @@
 </main>
 
 <script>
-/* ---------- State ---------- */
-const state = {
+/* ---------- App state ---------- */
+var state = {
   exposure:null,  // A1/A2/A3/A4
   hrr:null,       // brca/other/neg
   msi:'wt',       // msi/wt
-  specials:new Set(), // boneonly/indolent/oligo
+  specials:{},    // {boneonly:true, indolent:true, oligo:true}
   pheno:'adeno',  // adeno/nepc
-  psma:'neg'      // pos/neg (only relevant post ARPI + taxane)
+  psma:'neg'      // pos/neg
 };
 
-/* ---------- UI helpers ---------- */
+/* ---------- Utilities ---------- */
+function $(sel){ return document.querySelector(sel); }
+function $all(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+function setActive(container, attr, value){
+  var items = $all(container + ' .choice');
+  items.forEach(function(el){
+    if(el.getAttribute('data-'+attr) === value){ el.classList.add('active'); }
+    else { el.classList.remove('active'); }
+  });
+}
+function toggleMulti(el, key){
+  var tag = el.getAttribute('data-sit');
+  if(state.specials[tag]){ delete state.specials[tag]; el.classList.remove('active'); }
+  else { state.specials[tag] = true; el.classList.add('active'); }
+}
+function labelForClass(c){
+  return {arpi:'ARPI', parpi:'PARPi', taxane:'Taxane', radio:'Radiopharm', immuno:'Immunotherapy', other:'Other'}[c] || c;
+}
+function note(txt){ return '<div class="note small">'+txt+'</div>'; }
+function mutedLine(txt){ return '<div class="small muted">'+txt+'</div>'; }
+
+/* ---------- Event delegation bindings ---------- */
+function bindRadio(containerSel, stateKey, dataAttr){
+  var container = $(containerSel);
+  container.addEventListener('click', function(e){
+    var target = e.target.closest('.choice');
+    if(!target || !container.contains(target)) return;
+    // set active
+    $all(containerSel+' .choice').forEach(function(btn){ btn.classList.remove('active'); });
+    target.classList.add('active');
+    // set state
+    var val = target.getAttribute('data-'+dataAttr);
+    state[stateKey] = val;
