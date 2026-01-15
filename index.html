@@ -1,293 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mCRPC Clinical Handbook (ASCO 2025)</title>
-
+<meta name="description" content="Clinical handbook for mCRPC with collapsible sections, Trebuchet font, color-coded classes, and per-regimen PFS/OS with trial & DOI links.">
 <style>
-  body {
-    font-family: "Trebuchet MS", sans-serif;
-    margin: 0; padding: 0;
-    background: #f7f9fb;
-    color: #1a1a1a;
-    line-height: 1.65;
+  :root{
+    --ink:#1a1a1a; --muted:#5b6777; --panel:#ffffff; --bg:#f6f8fb; --border:#e5e7eb;
+    --arpi:#1976d2; --parpi:#2e7d32; --taxane:#d32f2f; --radio:#6a1b9a; --immuno:#ff8f00; --other:#455a64;
+    --accent:#0b3d91;
   }
-  header {
-    background: #0b3d91;
-    color: white;
-    padding: 24px 16px;
-    text-align: center;
-  }
-  h1 { margin: 0 0 8px; font-weight: 700; }
-  h2 { margin-top: 40px; border-left: 5px solid #0b3d91; padding-left: 10px; }
-  h3 { color: #0b3d91; margin-top: 28px; }
-  .container { max-width: 900px; margin: auto; padding: 20px; }
-  .section-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 22px 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.07);
-  }
-  .tag {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 8px;
-    color: white;
-    font-size: 0.85rem;
-    margin-right: 6px;
-  }
-  .arpi { background: #1976d2; }
-  .parpi { background: #2e7d32; }
-  .taxane { background: #d32f2f; }
-  .radio { background: #6a1b9a; }
-  .immuno { background: #ff8f00; }
-  .other { background: #455a64; }
-
-  .evidence-box {
-    background: #eef4ff;
-    border-left: 4px solid #0b3d91;
-    padding: 10px 14px;
-    margin-top: 12px;
-    border-radius: 6px;
-  }
-  .trial {
-    font-weight: bold;
-    color: #0b3d91;
-  }
-  footer {
-    text-align: center;
-    color: #666;
-    padding: 22px;
-    margin-top: 40px;
-  }
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS", Tahoma, Arial, sans-serif;line-height:1.65}
+  header{background:var(--accent);color:#fff;padding:28px 16px;text-align:center}
+  h1{margin:0 0 6px;font-size:1.9rem}
+  .container{max-width:980px;margin:0 auto;padding:18px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin:16px 0;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+  h2{margin-top:0;border-left:5px solid var(--accent);padding-left:10px}
+  h3{color:var(--accent);margin-top:18px}
+  .tag{display:inline-block;margin:0 6px 6px 0;padding:3px 8px;border-radius:999px;color:#fff;font-size:.85rem}
+  .arpi{background:var(--arpi)} .parpi{background:var(--parpi)} .taxane{background:var(--taxane)}
+  .radio{background:var(--radio)} .immuno{background:var(--immuno)} .other{background:var(--other)}
+  details{border:1px dashed var(--border);border-radius:10px;padding:10px 12px;background:#f9fbff}
+  summary{cursor:pointer;font-weight:700}
+  .evidence{background:#eef4ff;border-left:4px solid var(--accent);border-radius:6px;padding:10px 12px;margin-top:10px}
+  .muted{color:var(--muted)}
+  a.doi{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+  a.doi:hover{opacity:.8}
+  .chips{margin-top:4px}
+  ul.tight{margin:.2rem 0 .6rem 1.1rem}
+  .foot{color:var(--muted);font-size:.9rem;text-align:center;margin:28px 0}
 </style>
 </head>
-
 <body>
-
 <header>
-  <h1>mCRPC Clinical Handbook (ASCO 2025)</h1>
-  <div>Evidence-informed systemic therapy recommendations with PFS/OS benefits and citations</div>
+  <h1>mCRPC Clinical Handbook</h1>
+  <div>Modern, collapsible reference with class color‑coding • ASCO 2025 aligned</div>
 </header>
 
-<div class="container">
+<main class="container">
 
-<!-- INTRO -->
-<section class="section-card">
-  <h2>Introduction</h2>
-  <p>
-    This clinical handbook summarizes the 2025 ASCO guideline update for 
-    <strong>metastatic castration-resistant prostate cancer (mCRPC)</strong>, integrating:
-  </p>
-  <ul>
-    <li>Therapeutic selection based on <strong>prior castration-sensitive phase (CSPC) exposure</strong></li>
-    <li><strong>HRR and MSI/MMR biomarkers</strong></li>
-    <li>Clinical context (bone-only disease, indolent disease, oligoprogression)</li>
-    <li><strong>PFS/OS benefits with trial citations</strong></li>
-  </ul>
-
-  <h3>Key Definitions</h3>
-  <ul>
-    <li><strong>mCRPC</strong> — Progression despite castrate testosterone (&lt;50 ng/dL), by radiographic or biochemical criteria.</li>
-    <li><strong>HRR genes</strong> — BRCA1/2, PALB2, ATM, CHEK2, CDK12, etc.</li>
-    <li><strong>MSI-H/dMMR</strong> — Predictive for immune checkpoint response.</li>
-    <li><strong>Oligoprogression</strong> — Limited site progression (≤3 lesions) while overall disease is controlled.</li>
-  </ul>
-
-  <h3>Clinical Principles</h3>
-  <ul>
-    <li>Continue **ADT indefinitely**.</li>
-    <li>Initiate **early palliative/supportive care**.</li>
-    <li>Use **denosumab or zoledronic acid** for bone metastases.</li>
-    <li>Avoid treatment changes for **PSA-only progression** without clinical/radiographic correlation.</li>
-    <li>Imaging: **CT CAP + bone scan q3–6 months**.</li>
-    <li>Use **PSMA PET** primarily to determine suitability for **¹⁷⁷Lu‑PSMA‑617**.</li>
-  </ul>
-</section>
-
-<!-- BRANCH 1 -->
-<section class="section-card">
-  <h2>1. Patients Previously Treated With ADT Alone</h2>
-
-  <h3>A. BRCA1/2 Positive → PARPi + ARPI</h3>
-  <span class="tag parpi">PARPi</span>
-  <span class="tag arpi">ARPI</span>
-  <p><strong>Preferred regimens</strong>: olaparib + abiraterone; niraparib + abiraterone; talazoparib + enzalutamide.</p>
-
-  <div class="evidence-box">
-    <div class="trial">Evidence Summary</div>
+  <!-- INTRO -->
+  <section class="card">
+    <h2>Introduction & Core Principles</h2>
+    <p><strong>Scope.</strong> Evidence‑informed options for <em>metastatic castration‑resistant prostate cancer (mCRPC)</em>, summarized for rapid clinical reference and teaching.</p>
     <ul>
-      <li><strong>PFS:</strong> HR 0.28 (PROpel, TALAPRO‑2, MAGNITUDE BRCA subset)</li>
-      <li><strong>OS:</strong> HR 0.47 (same pooled BRCA subset)</li>
-      <li>Strongest benefit in BRCA1/2 vs other HRR</li>
+      <li><strong>Continue ADT indefinitely.</strong> Add palliative/supportive care early; maintain bone health (denosumab or zoledronic acid + Ca/Vit‑D).</li>
+      <li><strong>Monitoring.</strong> Use <em>CT chest/abdomen/pelvis + Tc‑99 bone scan</em> q3–6 months or earlier with clinical change. <em>PSMA‑PET</em> is primarily to qualify patients for <span class="tag radio">¹⁷⁷Lu‑PSMA‑617</span>; it is not recommended for routine response assessment.</li>
+      <li><strong>PSA kinetics (PSADT/velocity).</strong> In mCRPC, PSA kinetics are not validated to determine therapy selection; avoid <em>PSA‑only</em> progression calls without clinical/radiographic corroboration (PCWG3‑consistent).</li>
     </ul>
-    <div><strong>Citations:</strong> PROpel, TALAPRO‑2, MAGNITUDE</div>
-  </div>
+    <div class="muted">Evidence basis: ASCO 2025 guideline recommendations on monitoring and response assessment.</div>
+  </section>
 
-  <h3>B. Non-BRCA HRR → Talazoparib + Enzalutamide</h3>
-  <span class="tag parpi">PARPi</span>
-  <span class="tag arpi">ARPI</span>
-  <div class="evidence-box">
-    <ul>
-      <li><strong>PFS:</strong> HR 0.71 (TALAPRO‑2 non‑BRCA subset)</li>
-      <li><strong>OS:</strong> Not statistically significant</li>
-    </ul>
-    <div><strong>Citation:</strong> TALAPRO‑2</div>
-  </div>
+  <!-- DEFINITIONS -->
+  <section class="card">
+    <h2>Quick Definitions</h2>
+    <details open>
+      <summary>HRR genes & BRCA</summary>
+      <p><strong>HRR</strong> (homologous recombination repair) genes include <em>BRCA1/2</em>, <em>PALB2</em>, <em>ATM</em>, <em>CHEK2</em>, <em>CDK12</em>, among others. <strong>BRCA1/2</strong> alterations predict marked benefit from <span class="tag parpi">PARPi</span> strategies (often with <span class="tag arpi">ARPI</span> in ARPI‑naïve mCRPC).</p>
+    </details>
+    <details>
+      <summary>MSI‑H/dMMR</summary>
+      <p><strong>MSI‑H/dMMR</strong> tumors can respond to <span class="tag immuno">pembrolizumab</span> across histologies; in prostate cancer, activity is seen in a small subset following prior lines.</p>
+    </details>
+  </section>
 
-  <h3>C. HRR-Negative → Abiraterone / Enzalutamide / Docetaxel</h3>
-  <span class="tag arpi">ARPI</span>
-  <span class="tag taxane">Taxane</span>
-  <div class="evidence-box">
-    <ul>
-      <li><strong>Abiraterone:</strong> PFS HR 0.52, OS HR 0.81 (COU‑AA‑302)</li>
-      <li><strong>Enzalutamide:</strong> PFS HR 0.32, OS HR 0.77 (PREVAIL)</li>
-      <li><strong>Docetaxel:</strong> OS HR 0.79 (TAX‑327)</li>
-    </ul>
-  </div>
-</section>
+  <!-- FIRST BRANCH -->
+  <section class="card">
+    <h2>1) Prior CSPC exposure: <em>ADT only</em></h2>
 
-<!-- BRANCH 2 -->
-<section class="section-card">
-  <h2>2. Patients Previously Treated With ADT + ARPI</h2>
+    <details open>
+      <summary>BRCA1/2‑positive → <span class="tag parpi">PARPi</span> + <span class="tag arpi">ARPI</span></summary>
+      <div class="chips"><span class="tag parpi">PARPi</span><span class="tag arpi">ARPI</span></div>
+      <ul class="tight">
+        <li><strong>Options:</strong> olaparib + abiraterone; niraparib + abiraterone; talazoparib + enzalutamide.</li>
+        <li><strong>Effect (BRCA subset, meta‑analysis across phase 3):</strong> rPFS HR ≈ <strong>0.28</strong>; OS HR ≈ <strong>0.47</strong>.</li>
+      </ul>
+      <div class="evidence">
+        Trials & DOIs: PROpel (2023) <a class="doi" href="https://doi.org/10.1016/S1470-2045(23)00382-0">10.1016/S1470‑2045(23)00382‑0</a>; TALAPRO‑2 Lancet (2023) <a class="doi" href="https://doi.org/10.1016/S0140-6736(23)01055-3">10.1016/S0140‑6736(23)01055‑3</a>; NAT MED HRR cohort (2024) <a class="doi" href="https://doi.org/10.1038/s41591-023-02704-x">10.1038/s41591‑023‑02704‑x</a>; MAGNITUDE JCO (2023) <a class="doi" href="https://doi.org/10.1200/JCO.22.01649">10.1200/JCO.22.01649</a>.
+      </div>
+    </details>
 
-  <h3>A. BRCA1/2 Positive → Olaparib Monotherapy</h3>
-  <span class="tag parpi">PARPi</span>
+    <details>
+      <summary>HRR (non‑BRCA) → <span class="tag parpi">PARPi</span> + <span class="tag arpi">ARPI</span> (selected)</summary>
+      <ul class="tight">
+        <li><strong>TALAPRO‑2 (HRR‑deficient):</strong> rPFS HR ≈ <strong>0.45</strong> (primary HRR‑deficient cohort); OS immature/variable by gene. Consider strongest signals in PALB2/CDK12.</li>
+      </ul>
+      <div class="evidence">
+        DOIs above; see TALAPRO‑2 Nat Med 2024.
+      </div>
+    </details>
 
-  <div class="evidence-box">
-    <ul>
-      <li><strong>PFS:</strong> HR 0.22 (PROfound BRCA subset)</li>
-      <li><strong>OS:</strong> HR 0.63</li>
-    </ul>
-    <div><strong>Citations:</strong> PROfound, TRITON‑3</div>
-  </div>
+    <details>
+      <summary>HRR– / unknown → <span class="tag arpi">ARPI</span> or <span class="tag taxane">Taxane</span></summary>
+      <ul class="tight">
+        <li><strong>Abiraterone + prednisone (COU‑AA‑302):</strong> rPFS HR <strong>0.52</strong>; OS HR <strong>0.81</strong>. DOI <a class="doi" href="https://doi.org/10.1016/S1470-2045(14)71205-7">10.1016/S1470‑2045(14)71205‑7</a>.</li>
+        <li><strong>Enzalutamide (PREVAIL):</strong> 12‑mo rPFS 65% vs 14% (HR <strong>0.19</strong>); OS HR <strong>0.71</strong>. DOI <a class="doi" href="https://doi.org/10.1056/NEJMoa1405095">10.1056/NEJMoa1405095</a>.</li>
+        <li><strong>Docetaxel (TAX‑327):</strong> OS HR <strong>0.79</strong> vs mitoxantrone. DOI <a class="doi" href="https://doi.org/10.1056/NEJMoa040720">10.1056/NEJMoa040720</a>.</li>
+      </ul>
+    </details>
 
-  <h3>B. HRR– or Non-BRCA HRR → Docetaxel (Avoid ARPI→ARPI)</h3>
-  <span class="tag taxane">Taxane</span>
+    <details>
+      <summary>Special contexts</summary>
+      <ul class="tight">
+        <li><strong>Bone‑only symptomatic:</strong> <span class="tag radio">Radium‑223</span> OS HR <strong>0.70</strong> (ALSYMPCA). DOI <a class="doi" href="https://doi.org/10.1056/NEJMoa1213755">10.1056/NEJMoa1213755</a>.</li>
+        <li><strong>Indolent/minimally symptomatic, low volume:</strong> <span class="tag other">Sipuleucel‑T</span> OS HR <strong>0.73</strong> (pooled). DOI <a class="doi" href="https://www.nejm.org/doi/full/10.1056/NEJMoa1001294">NEJM 2010</a>.</li>
+        <li><strong>Oligometastatic (≤3 lesions):</strong> add MDT (e.g., SBRT). ARTO showed improved PFS HR <strong>0.35</strong> with AAP+SBRT vs AAP. DOI <a class="doi" href="https://doi.org/10.1200/JCO.23.00985">10.1200/JCO.23.00985</a>.</li>
+        <li><strong>MSI‑H/dMMR:</strong> <span class="tag immuno">Pembrolizumab</span> (non‑CRC MSI‑H cohort): prostate subset is small; median PFS ~4.1 mo, OS ~23.5 mo. DOI <a class="doi" href="https://doi.org/10.1200/JCO.19.02105">10.1200/JCO.19.02105</a>.</li>
+      </ul>
+    </details>
+  </section>
 
-  <div class="evidence-box">
-    <ul>
-      <li><strong>CARD trial:</strong> Cabazitaxel superior to abiraterone→enzalutamide or vice versa</li>
-      <li><strong>PFS:</strong> 8.0 vs 3.7 months (HR 0.54)</li>
-      <li><strong>OS:</strong> 13.6 vs 11.0 months (HR 0.64)</li>
-    </ul>
-  </div>
-</section>
+  <!-- SECOND BRANCH -->
+  <section class="card">
+    <h2>2) Prior CSPC exposure: <em>ADT + ARPI</em></h2>
 
-<!-- BRANCH 3 -->
-<section class="section-card">
-  <h2>3. Patients Previously Treated With ADT + Docetaxel</h2>
+    <details open>
+      <summary>BRCA1/2‑positive → <span class="tag parpi">Olaparib monotherapy</span></summary>
+      <ul class="tight">
+        <li><strong>PROfound (cohort A BRCA/ATM):</strong> rPFS HR <strong>0.34</strong> overall; in BRCA subset, guideline‑reported rPFS HR ~<strong>0.22</strong> and OS HR ~<strong>0.63</strong> vs ARPI switch.</li>
+      </ul>
+      <div class="evidence">NEJM 2020 DOI <a class="doi" href="https://doi.org/10.1056/NEJMoa1911440">10.1056/NEJMoa1911440</a>.</div>
+    </details>
 
-  <h3>A. HRR-positive → PARPi + ARPI if ARPI-naïve</h3>
-  <span class="tag parpi">PARPi</span>
-  <span class="tag arpi">ARPI</span>
+    <details>
+      <summary>Non‑BRCA HRR → <span class="tag parpi">Olaparib monotherapy</span> (conditional)</summary>
+      <p>rPFS benefit aggregated; OS signal inconsistent outside BRCA.</p>
+    </details>
 
-  <div class="evidence-box">
-    <ul>
-      <li>Same benefits as BRCA1/2 subset in PROpel/TALAPRO‑2/MAGNITUDE</li>
-    </ul>
-  </div>
+    <details>
+      <summary>HRR– / not actionable → <span class="tag taxane">Docetaxel</span> & avoid ARPI→ARPI</summary>
+      <ul class="tight">
+        <li><strong>CARD:</strong> cabazitaxel beat ARPI‑switch after prior ARPI + docetaxel: rPFS HR <strong>0.54</strong>; OS HR <strong>0.64</strong>. DOI <a class="doi" href="https://doi.org/10.1056/NEJMoa1911206">10.1056/NEJMoa1911206</a>.</li>
+      </ul>
+    </details>
+  </section>
 
-  <h3>B. HRR-negative → Abiraterone / Enzalutamide / Cabazitaxel</h3>
-  <span class="tag arpi">ARPI</span>
-  <span class="tag taxane">Taxane</span>
+  <!-- THIRD BRANCH -->
+  <section class="card">
+    <h2>3) Prior CSPC exposure: <em>ADT + Docetaxel</em></h2>
 
-  <div class="evidence-box">
-    <ul>
-      <li><strong>Abiraterone post-docetaxel:</strong> PFS HR 0.66, OS HR 0.74 (COU‑AA‑301)</li>
-      <li><strong>Enzalutamide post-docetaxel:</strong> OS HR 0.63 (AFFIRM)</li>
-      <li><strong>Cabazitaxel:</strong> OS HR 0.70 (TROPIC)</li>
-    </ul>
-  </div>
-</section>
+    <details open>
+      <summary>HRR‑positive (ARPI‑naïve) → <span class="tag parpi">PARPi</span> + <span class="tag arpi">ARPI</span></summary>
+      <p>Same choices/logic as Section 1; strongest in BRCA.</p>
+    </details>
 
-<!-- BRANCH 4 -->
-<section class="section-card">
-  <h2>4. Patients Previously Treated With ADT + ARPI + Docetaxel (Triplet)</h2>
+    <details>
+      <summary>HRR‑negative → <span class="tag arpi">Abiraterone</span> / <span class="tag arpi">Enzalutamide</span> / <span class="tag taxane">Cabazitaxel</span></summary>
+      <ul class="tight">
+        <li><strong>COU‑AA‑301 (post‑docetaxel):</strong> rPFS HR <strong>0.66</strong>; OS HR <strong>0.74</strong>. DOI <a class="doi" href="https://doi.org/10.1016/S1470-2045(12)70379-0">10.1016/S1470‑2045(12)70379‑0</a>.</li>
+        <li><strong>AFFIRM (post‑docetaxel enzalutamide):</strong> rPFS HR <strong>0.40</strong>; OS HR <strong>0.63</strong>. DOI <a class="doi" href="https://doi.org/10.1056/NEJMoa1207506">10.1056/NEJMoa1207506</a>.</li>
+        <li><strong>TROPIC (cabazitaxel):</strong> OS HR <strong>0.70</strong> vs mitoxantrone. (Lancet 2010)</li>
+      </ul>
+    </details>
+  </section>
 
-  <h3>A. PSMA-positive → ¹⁷⁷Lu‑PSMA‑617</h3>
-  <span class="tag radio">Radiopharmaceutical</span>
+  <!-- FOURTH BRANCH -->
+  <section class="card">
+    <h2>4) Prior CSPC exposure: <em>ADT + ARPI + Docetaxel (Triplet)</em></h2>
 
-  <div class="evidence-box">
-    <ul>
-      <li><strong>PFS:</strong> HR 0.40 (VISION)</li>
-      <li><strong>OS:</strong> HR 0.62</li>
-    </ul>
-    <div><strong>Citation:</strong> VISION</div>
-  </div>
+    <details open>
+      <summary>PSMA‑positive → <span class="tag radio">¹⁷⁷Lu‑PSMA‑617</span></summary>
+      <ul class="tight">
+        <li><strong>VISION:</strong> rPFS HR <strong>0.40</strong>; OS HR <strong>0.62</strong> after ARPI + taxane. DOI <a class="doi" href="https://doi.org/10.1056/NEJMoa2107322">10.1056/NEJMoa2107322</a>.</li>
+      </ul>
+    </details>
 
-  <h3>B. HRR-positive → Olaparib Monotherapy</h3>
-  <span class="tag parpi">PARPi</span>
+    <details>
+      <summary>HRR‑positive → <span class="tag parpi">Olaparib</span> monotherapy</summary>
+      <p>As in Section 2.</p>
+    </details>
 
-  <div class="evidence-box">
-    <ul>
-      <li><strong>PFS:</strong> HR 0.49 (PROfound HRR group)</li>
-    </ul>
-  </div>
+    <details>
+      <summary>PSMA‑negative or not eligible → <span class="tag taxane">Cabazitaxel</span> (± <span class="tag radio">Radium‑223</span> if bone‑predominant symptomatic)</summary>
+      <p>Cabazitaxel preferred to ARPI‑switch (CARD). Consider radium‑223 in symptomatic bone‑predominant disease.</p>
+    </details>
+  </section>
 
-  <h3>C. Symptomatic Bone-only → Radium‑223</h3>
-  <span class="tag radio">Radiopharmaceutical</span>
+  <!-- NEPC -->
+  <section class="card">
+    <h2>5) Neuroendocrine / Small‑cell Phenotype (t‑NEPC/AVPC)</h2>
+    <details open>
+      <summary>First‑line</summary>
+      <p><span class="tag taxane">Taxane</span>/<span class="tag other">Platinum</span> approaches: cisplatin or carboplatin + etoposide; cabazitaxel + carboplatin for AVPC features (TP53/RB1/PTEN alterations).</p>
+    </details>
+  </section>
 
-  <div class="evidence-box">
-    <ul>
-      <li><strong>OS:</strong> HR 0.70 (ALSYMPCA)</li>
-    </ul>
-  </div>
-</section>
+  <!-- MONITORING -->
+  <section class="card">
+    <h2>Monitoring & Response Assessment</h2>
+    <details open>
+      <summary>What to order and when</summary>
+      <ul class="tight">
+        <li><strong>Labs:</strong> PSA, testosterone (to confirm castrate levels), CBC, CMP; do not escalate therapy for PSA‑only rise without clinical or imaging evidence.</li>
+        <li><strong>Imaging:</strong> CT‑CAP + bone scan every 3–6 months or earlier if clinically indicated.</li>
+        <li><strong>PSMA‑PET:</strong> primarily for selecting ¹⁷⁷Lu‑PSMA‑617 candidates; not recommended as a routine response tool.</li>
+      </ul>
+    </details>
+  </section>
 
-<!-- SPECIAL -->
-<section class="section-card">
-  <h2>5. Special Clinical Situations</h2>
-
-  <h3>Indolent, Minimally Symptomatic → Sipuleucel‑T</h3>
-  <span class="tag other">Cellular therapy</span>
-
-  <div class="evidence-box">
-    <ul>
-      <li><strong>OS benefit:</strong> HR 0.73</li>
-      <li>No expected PSA or radiographic response</li>
-    </ul>
-    <div><strong>Citations:</strong> IMPACT, D9901, D9902A</div>
-  </div>
-
-  <h3>MSI-H/dMMR → Pembrolizumab</h3>
-  <span class="tag immuno">Immunotherapy</span>
-
-  <div class="evidence-box">
-    <ul>
-      <li><strong>ORR:</strong> ~40% across histology (KEYNOTE‑158)</li>
-      <li>Modest prostate-specific sample size</li>
-    </ul>
-  </div>
-
-  <h3>Oligoprogression → Metastasis-Directed Therapy (SBRT/Surgery)</h3>
-  <span class="tag other">MDT</span>
-
-  <div class="evidence-box">
-    <ul>
-      <li>Improved PFS when added to abiraterone in oligomet mCRPC</li>
-    </ul>
-    <div><strong>Citation:</strong> ARTO trial</div>
-  </div>
-
-  <h3>Neuroendocrine / Small-cell Variant → Platinum-based Therapy</h3>
-  <span class="tag other">Platinum</span>
-  <span class="tag taxane">Taxane</span>
-
-  <div class="evidence-box">
-    <ul>
-      <li>Carboplatin/cisplatin + etoposide (SCLC-based paradigm)</li>
-      <li>Carboplatin + cabazitaxel for AVPC phenotype</li>
-    </ul>
-  </div>
-</section>
-
-<footer>
-  ASCO Guideline Update 2025 • mCRPC Systemic Therapy Handbook • Designed for quick clinical reference
-</footer>
-</div>
-
+  <p class="foot">Source framework: ASCO Guideline Update 2025; pivotal trials as linked above. This educational tool does not substitute for clinical judgment.</p>
+</main>
 </body>
 </html>
+
